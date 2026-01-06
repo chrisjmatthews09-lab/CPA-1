@@ -1,706 +1,964 @@
+<!-- Chosen Palette: Financial Trust & Modern Growth (Slate, Emerald, Navy, White) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Colorado Accounting Acquisition Intelligence | NAICS 5412</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Project Summit: Colorado Accounting Acquisition Strategy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    /* Mobile Safe Area Fixes */
+    .safe-padding-bottom { padding-bottom: env(safe-area-inset-bottom); }
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    .chart-container {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        height: 250px; /* Smaller default for mobile */
+    }
+    @media (min-width: 768px) { .chart-container { height: 350px; } }
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    /* Custom Scrollbar for side nav */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    .active-nav { background-color: #0f172a; color: white; border-right: 4px solid #10b981; }
+    .tab-active { border-bottom: 2px solid #0f172a; color: #0f172a; font-weight: 600; }
 
-    <!-- Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bg: '#F5F5F0',
-                        surface: '#FFFFFF',
-                        primary: '#1F2937',
-                        secondary: '#4B5563',
-                        accent: '#D97706',
-                        'accent-hover': '#B45309',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    /* Smooth transitions */
+    .fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F5F5F0; color: #1F2937; -webkit-tap-highlight-color: transparent; }
-        
-        /* Chart Container Styling */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 250px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        
-        /* Hide scrollbars */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Sidebar Tab Active State */
-        .nav-btn-active {
-            background-color: #F9FAFB;
-            color: #1F2937;
-            border-left-width: 4px;
-            border-color: #D97706;
-            font-weight: 600;
-        }
-        .nav-btn-inactive {
-            color: #4B5563;
-            border-left-width: 4px;
-            border-color: transparent;
-        }
-        
-        /* Table Scrolling for Mobile */
-        .table-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        /* Prevent font zooming on iOS */
-        input, select, textarea { font-size: 16px !important; }
-
-        /* Inner Content Tab Active State */
-        .tab-active { border-bottom: 2px solid #D97706; color: #1F2937; font-weight: 600; }
-        .tab-inactive { border-bottom: 2px solid transparent; color: #6B7280; }
-    </style>
+    /* Touch-Friendly Range Slider Styling */
+    input[type=range] {
+        -webkit-appearance: none; 
+        width: 100%; 
+        background: transparent; 
+        padding: 10px 0; /* Increase touch area */
+    }
+    input[type=range]:focus { outline: none; }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 28px; /* Larger touch target */
+        width: 28px;
+        border-radius: 50%;
+        background: #10b981;
+        cursor: pointer;
+        margin-top: -12px; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        border: 2px solid white;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 6px;
+        cursor: pointer;
+        background: #e2e8f0;
+        border-radius: 3px;
+    }
+    
+    /* Mobile Menu Transition */
+    #mobile-menu { transition: transform 0.3s ease-in-out; }
+    .menu-open { transform: translateX(0%); }
+    .menu-closed { transform: translateX(-100%); }
+</style>
 </head>
-<body class="antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<body class="text-slate-800 antialiased">
 
-    <!-- Mobile Header -->
-    <header class="md:hidden bg-surface border-b border-gray-200 p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-        <h1 class="text-lg font-bold text-primary">Acquisition Intel</h1>
-        <button id="mobile-menu-btn" class="text-secondary hover:text-primary p-2 focus:outline-none">
-            <i data-lucide="menu" class="w-6 h-6"></i>
-        </button>
-    </header>
+<!-- Mobile Header -->
+<div class="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b sticky top-0 z-50 shadow-sm safe-top">
+    <div class="flex items-center">
+        <h1 class="text-lg font-bold text-slate-900 tracking-tight">Project Summit</h1>
+        <span class="ml-2 px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full uppercase">Live</span>
+    </div>
+    <button id="mobile-menu-btn" class="p-2 -mr-2 text-slate-600 focus:outline-none active:bg-slate-100 rounded-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+</div>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu-backdrop" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden glass-effect" onclick="closeMobileMenu()"></div>
+<div class="flex flex-col md:flex-row min-h-screen">
 
-    <!-- Sidebar Navigation -->
-    <nav id="sidebar" class="bg-surface w-64 border-r border-gray-200 flex-col h-screen fixed md:sticky top-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-        <div class="p-6 border-b border-gray-100 flex justify-between items-center md:block">
-            <div>
-                <h1 class="text-xl font-bold text-primary tracking-tight">Colorado 5412<br>Acquisition Study</h1>
-                <p class="text-xs text-secondary mt-2">Target: $750k-$1.5M SDE</p>
-            </div>
-            <button class="md:hidden text-secondary p-2" onclick="closeMobileMenu()">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+    <!-- Desktop Sidebar Navigation -->
+    <nav id="sidebar" class="hidden md:flex flex-col w-64 bg-white border-r h-screen sticky top-0 overflow-y-auto no-scrollbar z-40">
+        <div class="p-6 border-b">
+            <h1 class="text-xl font-bold text-slate-900 tracking-tight">Project Summit</h1>
+            <p class="text-xs text-slate-500 mt-1">Acquisition Strategy Deck</p>
+            <p class="text-xs text-purple-600 font-semibold mt-2">NAICS 541219 • Colorado</p>
         </div>
-        
-        <div class="flex-1 py-4 overflow-y-auto no-scrollbar">
-            <ul class="space-y-1">
-                <li><button onclick="handleNavClick('executive')" data-section="executive" class="nav-btn nav-btn-active w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Executive Summary</button></li>
-                <li><button onclick="handleNavClick('verticals')" data-section="verticals" class="nav-btn nav-btn-inactive w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="layers" class="w-4 h-4"></i> Vertical Deep Dive</button></li>
-                <li><button onclick="handleNavClick('market')" data-section="market" class="nav-btn nav-btn-inactive w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="trending-up" class="w-4 h-4"></i> Market & Pricing</button></li>
-                <li><button onclick="handleNavClick('strategy')" data-section="strategy" class="nav-btn nav-btn-inactive w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="git-merge" class="w-4 h-4"></i> Roll-up Strategy</button></li>
-                <li><button onclick="handleNavClick('financials')" data-section="financials" class="nav-btn nav-btn-inactive w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="calculator" class="w-4 h-4"></i> Valuation & Deal Math</button></li>
-                <li><button onclick="handleNavClick('diligence')" data-section="diligence" class="nav-btn nav-btn-inactive w-full text-left px-6 py-4 md:py-3 text-sm transition-colors flex items-center gap-3"><i data-lucide="clipboard-check" class="w-4 h-4"></i> Due Diligence</button></li>
-            </ul>
+        <div class="flex-1 py-4">
+            <a href="#" onclick="showSection('exec-summary')" class="nav-item active-nav flex items-center px-6 py-3 hover:bg-slate-50 transition-colors" data-target="exec-summary">
+                <span class="mr-3">📊</span> Executive Summary
+            </a>
+            <a href="#" onclick="showSection('market-analysis')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="market-analysis">
+                <span class="mr-3">🌍</span> Market Intelligence
+            </a>
+            <a href="#" onclick="showSection('strategy')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="strategy">
+                <span class="mr-3">♟️</span> The Roll-up Strategy
+            </a>
+            <a href="#" onclick="showSection('financials')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="financials">
+                <span class="mr-3">💰</span> Financial Analysis
+            </a>
+            <a href="#" onclick="showSection('operations')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="operations">
+                <span class="mr-3">⚙️</span> Ops & Growth
+            </a>
+            <a href="#" onclick="showSection('risks')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="risks">
+                <span class="mr-3">⚠️</span> Risk & Diligence
+            </a>
+            <a href="#" onclick="showSection('recommendation')" class="nav-item flex items-center px-6 py-3 hover:bg-slate-50 transition-colors text-slate-600" data-target="recommendation">
+                <span class="mr-3">🏆</span> Recommendation
+            </a>
+        </div>
+        <div class="p-4 border-t bg-slate-50">
+            <div class="text-xs text-slate-500">Target Range</div>
+            <div class="font-bold text-slate-800">$500k - $2.0M SDE</div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-1 bg-bg min-h-screen p-4 md:p-8 w-full md:max-w-[calc(100vw-256px)]">
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 flex menu-closed md:hidden">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
         
-        <!-- Section: Executive Summary -->
-        <div id="executive" class="content-section space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Executive Recommendation</h2>
-                    <p class="text-secondary text-base">Strategic outlook for accounting firm acquisitions in Colorado ($750k - $1.5M SDE).</p>
-                </header>
+        <!-- Drawer Content -->
+        <div class="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col safe-padding-bottom">
+            <div class="p-5 border-b flex justify-between items-center bg-slate-50">
+                <div>
+                    <h2 class="font-bold text-lg text-slate-900">Menu</h2>
+                    <p class="text-xs text-slate-500">Project Summit</p>
+                </div>
+                <button class="p-2 text-slate-500 hover:text-red-500" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto py-2" id="mobile-nav-links">
+                <!-- Links injected via JS -->
+            </div>
+            <div class="p-4 bg-slate-900 text-white">
+                 <div class="text-xs text-slate-400">Target Range</div>
+                 <div class="font-bold">$500k - $2.0M SDE</div>
+            </div>
+        </div>
+    </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-sm font-medium text-secondary">Primary Target</h3>
-                            <i data-lucide="target" class="text-accent w-5 h-5"></i>
-                        </div>
-                        <p class="text-2xl font-bold text-primary">541211 (CPA)</p>
-                        <p class="text-sm text-green-600 mt-1 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Best "Wedge"</p>
-                        <p class="text-xs text-secondary mt-2 hidden md:block">Highest stickiness, strongest barriers to entry.</p>
-                    </div>
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto bg-slate-50 relative safe-padding-bottom">
+        
+        <!-- SECTION 1: EXECUTIVE SUMMARY -->
+        <section id="exec-summary" class="section-content fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Executive Summary</h2>
+                <p class="text-base md:text-lg text-slate-600">The Arbitrage Opportunity in Colorado's Lower-Middle Market.</p>
+            </header>
 
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-sm font-medium text-secondary">Avg. SDE Multiple</h3>
-                            <i data-lucide="bar-chart-2" class="text-accent w-5 h-5"></i>
-                        </div>
-                        <p class="text-2xl font-bold text-primary">2.8x - 3.4x</p>
-                        <p class="text-sm text-secondary mt-1">SDE Range: $750k - $1.5M</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider">Arbitrage Spread</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-1">3.0x ➔ 12x</div>
+                    <p class="text-sm text-slate-600 mt-1">Buy at SDE, exit at EBITDA.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-blue-500">
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider">Target Market</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-1">$4.26 Billion</div>
+                    <p class="text-sm text-slate-600 mt-1">CO NAICS 5412 Revenue.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-indigo-500">
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider">The Driver</div>
+                    <div class="text-3xl font-bold text-slate-900 mt-1">Silver Tsunami</div>
+                    <p class="text-sm text-slate-600 mt-1">75% owner retirement.</p>
+                </div>
+            </div>
 
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-sm font-medium text-secondary">Roll-up Feasibility</h3>
-                            <i data-lucide="zap" class="text-accent w-5 h-5"></i>
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+                <h3 class="text-lg md:text-xl font-bold text-slate-900 mb-3">The Thesis</h3>
+                <p class="text-slate-700 leading-relaxed mb-4 text-sm md:text-base">
+                    We have identified a specific window to consolidate the fragmented Accounting & Payroll market in the Colorado Front Range. By acquiring legacy Bookkeeping/CAS firms with <strong>$500k–$2.0M SDE</strong>, we can bypass regulatory barriers (CPA ownership rules), modernize operations, and build a high-margin Advisory platform.
+                </p>
+                <p class="text-slate-700 leading-relaxed text-sm md:text-base">
+                    <strong>Why Bookkeeping/CAS?</strong> Colorado law requires CPA firm owners to hold a CPA license. As a non-CPA acquirer, targeting NAICS 541219 (Other Accounting Services) allows for full ownership while capturing the most valuable, recurring revenue stream: Advisory.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-2 text-sm md:text-base">Market Headwinds (Risks)</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-red-500 mr-2">▼</span> <strong>Talent Shortage:</strong> 6.6% drop in accounting grads.</li>
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-red-500 mr-2">▼</span> <strong>Commoditization:</strong> AI automating basic tax/books.</li>
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-red-500 mr-2">▼</span> <strong>Tech Debt:</strong> Legacy on-prem servers.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-2 text-sm md:text-base">Market Tailwinds (Opportunity)</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-emerald-500 mr-2">▲</span> <strong>Regulatory Complexity:</strong> Law changes drive demand.</li>
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-emerald-500 mr-2">▲</span> <strong>Outsourced Finance:</strong> SMBs want "Fractional CFOs".</li>
+                        <li class="flex items-start text-sm text-slate-600"><span class="text-emerald-500 mr-2">▲</span> <strong>Demographics:</strong> Urgent need for succession.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MARKET ANALYSIS -->
+        <section id="market-analysis" class="section-content hidden fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Market Intelligence</h2>
+                <p class="text-base md:text-lg text-slate-600">Deep dive into the $4.26B Ecosystem.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8">
+                <!-- Market Breakdown Visual -->
+                <div class="lg:col-span-3 bg-white p-4 md:p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold mb-4">Colorado Market Breakdown</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-center">
+                        <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-100">
+                            <div class="text-indigo-900 font-bold text-sm">CPA Firms</div>
+                            <div class="text-indigo-600 text-xl font-bold my-1">55%</div>
+                            <div class="text-[10px] text-indigo-500">~ $2.34B</div>
                         </div>
-                        <p class="text-2xl font-bold text-primary">High</p>
-                        <p class="text-sm text-secondary mt-1">Fragmentation Score: 4.8/5</p>
+                        <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="text-blue-900 font-bold text-sm">Tax Prep</div>
+                            <div class="text-blue-600 text-xl font-bold my-1">20%</div>
+                            <div class="text-[10px] text-blue-500">~ $0.85B</div>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg border border-purple-100 ring-2 ring-purple-400 relative">
+                            <div class="text-purple-900 font-bold text-sm">Bookkeeping</div>
+                            <div class="text-purple-600 text-xl font-bold my-1">15%</div>
+                            <div class="text-[10px] text-purple-500">~ $0.64B</div>
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                            <div class="text-emerald-900 font-bold text-sm">Payroll</div>
+                            <div class="text-emerald-600 text-xl font-bold my-1">10%</div>
+                            <div class="text-[10px] text-emerald-500">~ $0.43B</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200 mb-8">
-                    <h3 class="text-lg font-bold text-primary mb-3">The "Colorado Wedge" Thesis</h3>
-                    <div class="prose max-w-none text-secondary text-sm space-y-3">
-                        <p><strong>The Play:</strong> Acquire a foundational CPA firm (541211) in the Denver/Boulder/Fort Collins corridor with a stable compliance base ($1M+ revenue). Use this trust anchor to cross-sell high-margin CAS (Client Advisory Services) and payroll, while modernizing the tech stack.</p>
-                        <p><strong>Why Colorado?</strong> The Front Range has a high density of growing SMBs (tech, construction, services) facing complex multi-state tax issues due to remote work. Supply of CPAs is constrained (aging demographic), creating pricing power for firms that can solve staffing through near-shoring or automation.</p>
-                        <p><strong>The Deal Killer:</strong> Avoid firms with >40% revenue concentration in low-margin 1040 individual tax returns (unless HNW) or owners working 2,500+ hours/year without a succession team.</p>
+                <div class="lg:col-span-2 bg-white p-4 md:p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold mb-4">Landscape Scorecard</h3>
+                    <div class="chart-container">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4 text-center">Scores (1-5) based on analysis of fragmentation, margins, and recurring revenue.</p>
+                </div>
+                
+                <div class="space-y-3 md:space-y-4">
+                    <div class="bg-purple-50 p-4 rounded-xl cursor-pointer active:scale-95 transform transition-transform border-l-4 border-purple-500" onclick="updateVerticalDetail('541219')">
+                        <h4 class="font-bold text-purple-900 text-sm">541219: Bookkeeping/CAS</h4>
+                        <p class="text-xs text-purple-700 mt-1">Our Wedge. High recurring revenue, no CPA license required.</p>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-xl cursor-pointer active:scale-95 transform transition-transform opacity-60" onclick="updateVerticalDetail('541211')">
+                        <h4 class="font-bold text-indigo-900 text-sm">541211: CPA Firms</h4>
+                        <p class="text-xs text-indigo-700 mt-1">Regulatory hurdle for ownership.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-4 rounded-xl cursor-pointer active:scale-95 transform transition-transform opacity-60" onclick="updateVerticalDetail('541214')">
+                        <h4 class="font-bold text-emerald-900 text-sm">541214: Payroll</h4>
+                        <p class="text-xs text-emerald-700 mt-1">Tech-heavy, crowded.</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Section: Vertical Deep Dive -->
-        <div id="verticals" class="content-section hidden space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Vertical Deep Dive</h2>
-                    <p class="text-secondary text-base">Detailed analysis of the NAICS 5412 ecosystem.</p>
-                </header>
+            <!-- Detail View for Verticals -->
+            <div id="vertical-detail" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 scroll-mt-20">
+                <h3 id="v-title" class="text-xl md:text-2xl font-bold text-slate-900 mb-2">Select a Vertical</h3>
+                <p id="v-desc" class="text-sm text-slate-600 mb-6">Click cards above for detailed insights.</p>
+                <div class="grid grid-cols-3 gap-2 md:gap-6 text-center md:text-left">
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Moat Rating</span>
+                        <span id="v-moat" class="text-lg font-bold text-slate-800">-</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Fragmentation</span>
+                        <span id="v-frag" class="text-lg font-bold text-slate-800">-</span>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded">
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Barriers</span>
+                        <span id="v-barrier" class="text-lg font-bold text-slate-800">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <div class="flex border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar pb-1">
-                    <button onclick="switchVerticalTab('cpa')" id="tab-cpa" class="vertical-tab tab-active px-4 py-3 text-sm font-medium whitespace-nowrap flex-shrink-0">541211: CPA</button>
-                    <button onclick="switchVerticalTab('tax')" id="tab-tax" class="vertical-tab tab-inactive px-4 py-3 text-sm font-medium whitespace-nowrap flex-shrink-0">541213: Tax Prep</button>
-                    <button onclick="switchVerticalTab('payroll')" id="tab-payroll" class="vertical-tab tab-inactive px-4 py-3 text-sm font-medium whitespace-nowrap flex-shrink-0">541214: Payroll</button>
-                    <button onclick="switchVerticalTab('other')" id="tab-other" class="vertical-tab tab-inactive px-4 py-3 text-sm font-medium whitespace-nowrap flex-shrink-0">541219: CAS</button>
+        <!-- SECTION 3: STRATEGY -->
+        <section id="strategy" class="section-content hidden fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Roll-Up Strategy</h2>
+                <p class="text-base md:text-lg text-slate-600">The "CAS First" Playbook.</p>
+            </header>
+
+            <div class="mb-8">
+                <!-- Scrollable Tabs for Mobile -->
+                <div class="flex overflow-x-auto pb-2 border-b border-slate-200 mb-6 gap-2 no-scrollbar">
+                    <button class="whitespace-nowrap px-4 py-2 text-sm text-slate-600 font-medium hover:text-blue-600 tab-btn tab-active flex-shrink-0" data-tab="wedge-cas" onclick="switchTab('wedge', 'wedge-cas')">The CAS Wedge (Primary)</button>
+                    <button class="whitespace-nowrap px-4 py-2 text-sm text-slate-600 font-medium hover:text-blue-600 tab-btn flex-shrink-0" data-tab="wedge-payroll" onclick="switchTab('wedge', 'wedge-payroll')">Payroll Wedge</button>
+                    <button class="whitespace-nowrap px-4 py-2 text-sm text-slate-600 font-medium hover:text-blue-600 tab-btn flex-shrink-0" data-tab="wedge-cpa" onclick="switchTab('wedge', 'wedge-cpa')">CPA Wedge</button>
                 </div>
 
-                <!-- CPA Content -->
-                <div id="content-cpa" class="vertical-content block">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                            <h3 class="font-bold text-primary mb-3 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-accent"></i> Business Model</h3>
-                            <ul class="space-y-2 text-sm text-secondary">
-                                <li class="flex items-start gap-2"><span class="text-accent">•</span> <strong>Revenue:</strong> Tax compliance (recur-ish), Audit/Attest (recurring), Advisory (project).</li>
-                                <li class="flex items-start gap-2"><span class="text-accent">•</span> <strong>Clients:</strong> SMBs ($1M-$20M Rev), HNW Individuals.</li>
-                                <li class="flex items-start gap-2"><span class="text-accent">•</span> <strong>Moat:</strong> High. "Trusted Advisor" status + License barrier.</li>
+                <!-- CAS Wedge Content -->
+                <div id="wedge-cas" class="wedge-content">
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm border-l-4 border-purple-500">
+                        <h3 class="text-lg md:text-xl font-bold text-slate-900 mb-2">Strategy: The "Outsourced CFO"</h3>
+                        <p class="text-slate-600 mb-4 text-sm md:text-base">Acquire a 541219 Bookkeeping firm and convert to Client Advisory Services (CAS).</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <ul class="text-sm space-y-3 bg-purple-50 p-4 rounded-lg">
+                                <li class="font-bold text-purple-900 mb-1">Why it works in CO:</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> <strong>NO CPA License Required.</strong></li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Highest growth segment (17%).</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> High margins via subscription pricing.</li>
+                            </ul>
+                            <ul class="text-sm space-y-3 bg-slate-50 p-4 rounded-lg">
+                                <li class="font-bold text-slate-900 mb-1">The Risk:</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Low barriers to entry (Crowded).</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> AI threat to basic bookkeeping.</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Need sophisticated talent for Advisory.</li>
                             </ul>
                         </div>
-                        <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                            <h3 class="font-bold text-primary mb-3 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-accent"></i> Risks & Headwinds</h3>
-                            <ul class="space-y-2 text-sm text-secondary">
-                                <li class="flex items-start gap-2"><span class="text-accent">•</span> <strong>Talent:</strong> Severe shortage of CPAs. Wage inflation 5-8% YoY.</li>
-                                <li class="flex items-start gap-2"><span class="text-accent">•</span> <strong>Seasonality:</strong> Extreme compression Feb-Apr.</li>
+                    </div>
+                </div>
+
+                 <!-- Payroll Wedge Content -->
+                 <div id="wedge-payroll" class="wedge-content hidden">
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                        <h3 class="text-lg md:text-xl font-bold text-slate-900 mb-2">Strategy: Recurring Revenue Engine</h3>
+                        <p class="text-slate-600 mb-4 text-sm md:text-base">Acquire a 541214 Payroll bureau. Highly automated MRR.</p>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <ul class="text-sm space-y-2 bg-emerald-50 p-4 rounded-lg">
+                                <li class="font-bold text-emerald-900 mb-1">Why it works in CO:</li>
+                                <li>• 19% New Business formation needs payroll</li>
+                                <li>• Extremely high switching costs</li>
+                                <li>• Natural cross-sell into 401k/Benefits</li>
+                            </ul>
+                             <ul class="text-sm space-y-2 bg-slate-50 p-4 rounded-lg">
+                                <li class="font-bold text-slate-900 mb-1">The Risk:</li>
+                                <li>• Intense competition (Gusto, ADP)</li>
+                                <li>• Liability for tax filing errors</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-primary mb-4">Revenue Mix Quality</h3>
-                        <div class="chart-container">
-                            <canvas id="cpaMixChart"></canvas>
+                </div>
+
+                <!-- CPA Wedge Content -->
+                <div id="wedge-cpa" class="wedge-content hidden">
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm border-l-4 border-indigo-500">
+                        <h3 class="text-lg md:text-xl font-bold text-slate-900 mb-2">Strategy: Trust First</h3>
+                        <div class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-bold mb-2">RESTRICTED</div>
+                        <p class="text-sm text-slate-600">Colorado requires majority CPA ownership. Only viable if partnering with a licensed CPA who holds 51% equity.</p>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                             <ul class="text-sm space-y-2 bg-indigo-50 p-4 rounded-lg">
+                                <li class="font-bold text-indigo-900 mb-1">Why it works:</li>
+                                <li>• Highest trust barrier</li>
+                                <li>• Referral engine for high-net-worth</li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Tax Content -->
-                <div id="content-tax" class="vertical-content hidden">
-                    <div class="bg-surface p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-                        <h3 class="font-bold text-primary text-lg mb-4">541213: Tax Preparation Services</h3>
-                        <p class="text-sm text-secondary mb-4">Focus on high-volume individual returns (1040) or niche corporate tax. Lower barrier to entry than CPA firms.</p>
-                        <div class="grid grid-cols-3 gap-4 text-center">
-                            <div class="bg-gray-50 p-3 rounded"><div class="text-lg font-bold">Low</div><div class="text-[10px] text-gray-500 uppercase">Stickiness</div></div>
-                            <div class="bg-gray-50 p-3 rounded"><div class="text-lg font-bold">High</div><div class="text-[10px] text-gray-500 uppercase">Seasonality</div></div>
-                            <div class="bg-gray-50 p-3 rounded"><div class="text-lg font-bold">Med</div><div class="text-[10px] text-gray-500 uppercase">Auto Risk</div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payroll Content -->
-                <div id="content-payroll" class="vertical-content hidden">
-                     <div class="bg-surface p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-                        <h3 class="font-bold text-primary text-lg mb-4">541214: Payroll Services</h3>
-                         <p class="text-sm text-secondary mb-4">Highly recurring, sticky revenue. Major competition from tech platforms (Gusto, ADP). Niche service (e.g., Construction/Union payroll) is the only viable acquisition path.</p>
-                         <div class="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50">
-                             <p class="text-xs text-blue-700"><strong>Strategy:</strong> Don't buy a vanilla payroll bureau. Buy a firm that handles complex compliance (prevailing wage, multi-state nexus).</p>
-                         </div>
-                    </div>
-                </div>
-
-                <!-- Other Content -->
-                <div id="content-other" class="vertical-content hidden">
-                    <div class="bg-surface p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-                        <h3 class="font-bold text-primary text-lg mb-4">541219: Bookkeeping & CAS</h3>
-                        <p class="text-sm text-secondary mb-4">The growth engine. Moving from data entry (commodity) to "Client Advisory Services" (CAS) - outsourced CFO/Controller.</p>
-                        <p class="text-sm text-secondary"><strong>Key Metric:</strong> Monthly Recurring Revenue (MRR). This vertical trades closer to SaaS multiples (1.5x - 2x Revenue) if the tech stack is pure cloud.</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Section: Market & Pricing -->
-        <div id="market" class="content-section hidden space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Market & Pricing</h2>
-                    <p class="text-secondary text-base">Landscape and fee trends.</p>
-                </header>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <!-- Fragmentation Chart Card -->
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200 flex flex-col">
-                        <h3 class="font-bold text-primary mb-1">Industry Fragmentation</h3>
-                         <p class="text-xs text-secondary mb-4">Market share by firm revenue size (Colorado).</p>
-                        
-                        <div class="chart-container flex-grow relative">
-                            <!-- Center Text Overlay -->
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div class="text-center pt-2">
-                                    <span class="text-3xl md:text-4xl font-bold text-primary block">75%</span>
-                                    <span class="text-[10px] text-secondary uppercase font-semibold tracking-wider">Small<br>Firms</span>
-                                </div>
-                            </div>
-                            <canvas id="fragmentationChart"></canvas>
-                        </div>
-
-                         <div class="mt-4 bg-gray-50 rounded-lg p-3 border border-gray-100">
-                            <h4 class="text-xs font-bold text-primary mb-1 flex items-center gap-1">
-                                <i data-lucide="info" class="w-3 h-3 text-accent"></i> Analyst Takeaway
-                            </h4>
-                            <p class="text-xs text-secondary leading-relaxed">
-                                The market is <strong>highly fragmented</strong>. 75% of firms are small "Indies" (<$2M Rev). This is the "Sweet Spot" for acquisition because there is no dominant monopoly blocking a roll-up strategy.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Pricing Trend Chart Card -->
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-primary mb-2">Hourly Rate Trends (CO)</h3>
-                        <div class="chart-container"><canvas id="pricingTrendChart"></canvas></div>
-                    </div>
-                </div>
-
-                <!-- Pricing Table -->
-                <div class="bg-surface rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-4 border-b border-gray-200 bg-gray-50">
-                        <h3 class="font-bold text-primary">Service Pricing Benchmarks (2024-2025)</h3>
-                    </div>
-                    <div class="table-container">
-                        <table class="w-full text-sm text-left whitespace-nowrap">
-                            <thead class="text-xs text-secondary uppercase bg-gray-50 border-b">
-                                <tr>
-                                    <th class="px-6 py-3 font-medium">Service Line</th>
-                                    <th class="px-6 py-3 font-medium">Pricing Model</th>
-                                    <th class="px-6 py-3 font-medium">Low Range</th>
-                                    <th class="px-6 py-3 font-medium">High Range</th>
-                                    <th class="px-6 py-3 font-medium">Trend</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium text-primary">1040 Tax (Simple)</td><td class="px-6 py-4">Per Filing</td><td class="px-6 py-4 text-secondary">$500</td><td class="px-6 py-4 text-secondary">$900</td><td class="px-6 py-4 text-green-600">↑ Flat</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium text-primary">1040 Tax (Complex)</td><td class="px-6 py-4">Per Filing</td><td class="px-6 py-4 text-secondary">$1,200</td><td class="px-6 py-4 text-secondary">$3,500+</td><td class="px-6 py-4 text-green-600">↑ 8%</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium text-primary">Bookkeeping</td><td class="px-6 py-4">Retainer</td><td class="px-6 py-4 text-secondary">$400/mo</td><td class="px-6 py-4 text-secondary">$1,500/mo</td><td class="px-6 py-4 text-yellow-600">→ Stable</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium text-primary">CAS / Controller</td><td class="px-6 py-4">Subscription</td><td class="px-6 py-4 text-secondary">$2,500/mo</td><td class="px-6 py-4 text-secondary">$6,000/mo</td><td class="px-6 py-4 text-green-600">↑ 12%</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-6 py-4 font-medium text-primary">Full Service Payroll</td><td class="px-6 py-4">Base + PEPM</td><td class="px-6 py-4 text-secondary">$50 + $6/emp</td><td class="px-6 py-4 text-secondary">$150 + $12/emp</td><td class="px-6 py-4 text-yellow-600">→ Competitive</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <!-- Inorganic Playbook -->
+            <h3 class="text-xl font-bold text-slate-900 mb-4 mt-8">Inorganic Growth Playbook</h3>
+            <div class="overflow-x-auto rounded-lg shadow-sm border border-slate-200">
+                <table class="w-full text-sm text-left text-slate-600 bg-white">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th class="px-4 py-3 whitespace-nowrap">Synergy Type</th>
+                            <th class="px-4 py-3 min-w-[200px]">Execution Strategy</th>
+                            <th class="px-4 py-3 whitespace-nowrap">Timeline</th>
+                            <th class="px-4 py-3 whitespace-nowrap">Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="px-4 py-4 font-medium text-slate-900">Pricing Arbitrage</td>
+                            <td class="px-4 py-4">Transition legacy hourly billing to Value/Fixed Subscription.</td>
+                            <td class="px-4 py-4">Day 30-90</td>
+                            <td class="px-4 py-4 text-yellow-600 font-bold">Medium</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-4 py-4 font-medium text-slate-900">Cost Rationalization</td>
+                            <td class="px-4 py-4">Migrate to cloud stack. Implement offshore team for data entry.</td>
+                            <td class="px-4 py-4">Day 90-180</td>
+                            <td class="px-4 py-4 text-red-600 font-bold">High</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4 font-medium text-slate-900">Cross-Sell</td>
+                            <td class="px-4 py-4">Sell Payroll to Tax clients. Sell Advisory to Bookkeeping clients.</td>
+                            <td class="px-4 py-4">Year 1+</td>
+                            <td class="px-4 py-4 text-emerald-600 font-bold">Low</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
+        </section>
 
-        <!-- Section: Roll-up Strategy -->
-        <div id="strategy" class="content-section hidden space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Roll-up & Wedge Strategy</h2>
-                    <p class="text-secondary text-base">The "Platform + Tuck-in" playbook.</p>
-                </header>
+        <!-- SECTION 4: FINANCIALS -->
+        <section id="financials" class="section-content hidden fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Financial Engine</h2>
+                <p class="text-base md:text-lg text-slate-600">Deal Math & Capital Stack.</p>
+            </header>
 
-                <div class="bg-surface p-6 rounded-lg shadow-sm border border-gray-200 mb-8">
-                    <h3 class="text-lg font-bold text-primary mb-4">The "Hub & Spoke" Inorganic Growth Model</h3>
-                    <div class="flex flex-col gap-4">
-                        <div class="p-4 bg-gray-50 rounded border-l-4 border-accent">
-                            <h4 class="font-bold text-primary">1. The Platform (The Wedge)</h4>
-                            <p class="text-sm text-secondary mt-1">Acquire a $1.2M - $1.5M SDE CPA firm with strong local reputation, decent (but not perfect) tech, and a partner looking to retire in 2-3 years. This provides cash flow and the "CPA" brand halo.</p>
-                        </div>
-                        <div class="p-4 bg-gray-50 rounded border-l-4 border-gray-400">
-                            <h4 class="font-bold text-primary">2. The Tuck-ins</h4>
-                            <p class="text-sm text-secondary mt-1">Acquire smaller ($200k - $400k SDE) tax or bookkeeping practices. Migrate their clients to your centralized tech stack and pricing model. Eliminate their overhead (rent, admin).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Subscription Pricing Models -->
-                <div class="bg-surface p-6 rounded-lg shadow-sm border border-gray-200 mb-8">
-                    <h3 class="text-lg font-bold text-primary mb-4">Target Operating Model: Subscription Pricing</h3>
-                    <p class="text-sm text-secondary mb-6">Transitioning acquired clients to standardized monthly recurring revenue tiers.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                <!-- Calculator Input -->
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Acquisition Calculator</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Tier 1 -->
-                        <div class="border border-gray-200 rounded-lg p-5 hover:border-accent transition-colors">
-                            <h4 class="font-bold text-primary text-lg mb-2">Tier 1: Compliance</h4>
-                            <p class="text-2xl font-bold text-accent mb-4">$500 - $1k<span class="text-xs text-secondary font-normal">/mo</span></p>
-                            <ul class="space-y-2 text-xs text-secondary">
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Monthly Categorization</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Bank Reconciliation</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Financial Statements</li>
-                            </ul>
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-sm font-medium text-slate-700">Target SDE</label>
+                            <span id="display-sde" class="text-lg font-bold text-blue-600">$1,250,000</span>
                         </div>
-
-                        <!-- Tier 2 -->
-                        <div class="border border-accent/30 bg-accent/5 rounded-lg p-5 relative">
-                            <div class="absolute top-0 right-0 bg-accent text-white text-[10px] px-2 py-1 rounded-bl font-bold">POPULAR</div>
-                            <h4 class="font-bold text-primary text-lg mb-2">Tier 2: Advisory</h4>
-                            <p class="text-2xl font-bold text-accent mb-4">$1.5k - $3k<span class="text-xs text-secondary font-normal">/mo</span></p>
-                            <ul class="space-y-2 text-xs text-secondary">
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> <strong>Everything in Tier 1</strong></li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Quarterly Strategy Meetings</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Cash Flow Forecasting</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> KPI Tracking</li>
-                            </ul>
+                        <div class="px-2">
+                            <input type="range" id="input-sde" min="500000" max="2000000" step="50000" value="1250000" oninput="calculateDeal()">
                         </div>
-
-                        <!-- Tier 3 -->
-                        <div class="border border-gray-200 rounded-lg p-5 hover:border-accent transition-colors">
-                            <h4 class="font-bold text-primary text-lg mb-2">Tier 3: Fractional CFO</h4>
-                            <p class="text-2xl font-bold text-accent mb-4">$4k - $8k<span class="text-xs text-secondary font-normal">/mo</span></p>
-                            <ul class="space-y-2 text-xs text-secondary">
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> <strong>Everything in Tier 2</strong></li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Monthly Board Meetings</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Budget Creation</li>
-                                <li class="flex items-start gap-2"><i data-lucide="check" class="w-3 h-3 text-green-600 mt-0.5"></i> Vendor Management</li>
-                            </ul>
+                        <div class="flex justify-between text-[10px] text-slate-400 mt-2 font-medium uppercase">
+                            <span>$500k</span>
+                            <span>$2.0M</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Opportunity Matrix -->
-                <div class="bg-surface rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-4 border-b border-gray-200 bg-gray-50">
-                        <h3 class="font-bold text-primary">Cross-Sell Opportunity Matrix</h3>
-                    </div>
-                    <div class="table-container">
-                        <table class="w-full text-sm text-center whitespace-nowrap">
-                            <thead>
-                                <tr class="text-xs text-secondary uppercase bg-white border-b">
-                                    <th class="px-4 py-3 text-left">From \ To</th>
-                                    <th class="px-4 py-3">Tax Prep</th>
-                                    <th class="px-4 py-3">Bookkeeping</th>
-                                    <th class="px-4 py-3">Payroll</th>
-                                    <th class="px-4 py-3">Advisory (CAS)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="px-4 py-3 font-bold text-left bg-gray-50">Tax Clients</td>
-                                    <td class="px-4 py-3 bg-gray-100 text-gray-400">-</td>
-                                    <td class="px-4 py-3 bg-green-100 text-green-800 font-medium">High Impact</td>
-                                    <td class="px-4 py-3 bg-yellow-50 text-yellow-800">Med Impact</td>
-                                    <td class="px-4 py-3 bg-green-50 text-green-800">Med Impact</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3 font-bold text-left bg-gray-50">Bookkeeping Clients</td>
-                                    <td class="px-4 py-3 bg-green-100 text-green-800 font-medium">High Impact</td>
-                                    <td class="px-4 py-3 bg-gray-100 text-gray-400">-</td>
-                                    <td class="px-4 py-3 bg-green-100 text-green-800 font-medium">High Impact</td>
-                                    <td class="px-4 py-3 bg-green-200 text-green-900 font-bold">Very High</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3 font-bold text-left bg-gray-50">Payroll Clients</td>
-                                    <td class="px-4 py-3 bg-yellow-50 text-yellow-800">Med Impact</td>
-                                    <td class="px-4 py-3 bg-green-50 text-green-800">Med Impact</td>
-                                    <td class="px-4 py-3 bg-gray-100 text-gray-400">-</td>
-                                    <td class="px-4 py-3 bg-red-50 text-red-800">Low Impact</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Financials -->
-        <div id="financials" class="content-section hidden space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Deal Math</h2>
-                    <p class="text-secondary text-base">Structure: 15% Down, 5% Seller Note, 80% SBA.</p>
-                </header>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200 space-y-6">
-                        <h3 class="font-bold text-primary border-b border-gray-100 pb-2">Deal Drivers</h3>
-                        <div>
-                            <label class="block text-sm font-medium text-secondary mb-2">Target SDE</label>
-                            <input type="range" id="sdeInput" min="500000" max="2000000" step="50000" value="1000000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-accent">
-                            <div class="flex justify-between text-xs text-secondary mt-1 font-medium">
-                                <span>$500k</span>
-                                <span id="sdeDisplay" class="text-primary text-base">$1,000,000</span>
-                                <span>$2M</span>
-                            </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                             <label class="text-sm font-medium text-slate-700">Multiple (x)</label>
+                             <span id="mult-val" class="text-lg font-bold text-blue-600">3.5x</span>
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-secondary mb-2">Multiple (xSDE)</label>
-                            <input type="range" id="multipleInput" min="2.0" max="4.5" step="0.1" value="3.0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-accent">
-                            <div class="flex justify-between text-xs text-secondary mt-1 font-medium">
-                                <span>2.0x</span>
-                                <span id="multipleDisplay" class="text-primary text-base">3.0x</span>
-                                <span>4.5x</span>
-                            </div>
+                        <div class="px-2">
+                            <input type="range" id="input-multiple" min="2.5" max="4.5" step="0.1" value="3.5" oninput="document.getElementById('mult-val').innerText = this.value + 'x'; calculateDeal()">
+                        </div>
+                         <div class="flex justify-between text-[10px] text-slate-400 mt-2 font-medium uppercase">
+                            <span>2.5x</span>
+                            <span>4.5x</span>
                         </div>
                     </div>
 
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-primary border-b border-gray-100 pb-2 mb-4">Capital Stack & Cash Flow</h3>
-                        
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-secondary text-sm">Purchase Price</span>
-                            <span id="purchasePrice" class="text-xl font-bold text-primary">$3,000,000</span>
+                    <div class="bg-slate-50 p-4 rounded-lg border mt-6 space-y-3 text-sm">
+                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                            <span class="text-slate-600">Purchase Price:</span>
+                            <span id="out-price" class="font-bold text-slate-900">$0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500 text-xs">Closing Costs (3%):</span>
+                            <span id="out-fees" class="text-slate-700 text-xs">$0</span>
+                        </div>
+                        <div class="flex justify-between font-bold bg-white p-2 rounded shadow-sm border border-slate-100">
+                            <span class="text-slate-800">Total Project Cost:</span>
+                            <span id="out-total-cost" class="text-slate-900">$0</span>
                         </div>
                         
-                        <div class="space-y-3 text-sm border-t border-gray-100 pt-3">
-                            <div class="flex justify-between">
-                                <span class="text-secondary">Equity (15%)</span>
-                                <span id="equityAmount" class="font-medium">$450,000</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary">Seller Note (5%)</span>
-                                <span id="sellerNoteAmount" class="font-medium">$150,000</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-secondary">SBA Loan (80%)</span>
-                                <span id="loanAmount" class="font-medium text-primary">$2,400,000</span>
+                        <div class="mt-4 pt-2">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-2">Sources of Funds</div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                <div class="bg-emerald-50 p-2 rounded border border-emerald-100">
+                                    <div class="text-emerald-700 font-bold mb-1">Equity</div>
+                                    <div id="out-equity" class="text-slate-900 font-mono">10%</div>
+                                </div>
+                                <div class="bg-blue-50 p-2 rounded border border-blue-100">
+                                    <div class="text-blue-700 font-bold mb-1">Seller</div>
+                                    <div id="out-seller" class="text-slate-900 font-mono">10%</div>
+                                </div>
+                                <div class="bg-slate-100 p-2 rounded border border-slate-200">
+                                    <div class="text-slate-700 font-bold mb-1">SBA</div>
+                                    <div id="out-loan" class="text-slate-900 font-mono">80%</div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="bg-gray-50 p-4 rounded-lg mt-4 space-y-2">
-                            <div class="flex justify-between items-center">
-                                <span class="text-accent font-medium text-sm">SBA Debt Service (Annual)</span>
-                                <span id="debtService" class="font-bold text-accent">$350,000</span>
-                            </div>
-                            <div class="flex justify-between items-center pt-2 border-t border-gray-200">
-                                <span class="text-primary font-bold text-sm">Est. Free Cash Flow</span>
-                                <span id="cashFlow" class="font-bold text-green-600">$650,000</span>
-                            </div>
+                        <div class="flex justify-between items-center border-t border-slate-300 pt-3 mt-3">
+                            <span class="text-slate-600 font-bold">Your Cash Flow:</span>
+                            <span id="out-cashflow" class="font-bold text-emerald-600 text-xl">$0</span>
+                        </div>
+                         <div class="flex justify-between mt-0">
+                            <span class="text-slate-400 text-[10px] uppercase font-bold">DSCR Safety Ratio</span>
+                            <span id="out-dscr" class="font-bold text-slate-500 text-xs">-</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Section: Due Diligence -->
-        <div id="diligence" class="content-section hidden space-y-6 animate-fade-in">
-            <div class="max-w-4xl mx-auto">
-                <header class="mb-6">
-                    <h2 class="text-2xl md:text-3xl font-bold text-primary mb-2">Due Diligence Checklist</h2>
-                    <p class="text-secondary text-base">Interactive investor-grade checklist.</p>
-                </header>
-
+                <!-- Deal Visuals & Checklist -->
                 <div class="space-y-6">
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-primary mb-4 flex items-center gap-2">
-                            <div class="w-1 h-6 bg-accent rounded-sm"></div> Financial & QoE
-                        </h3>
-                        <div class="space-y-3">
-                            <label class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                                <input type="checkbox" class="mt-1 accent-accent w-5 h-5 rounded border-gray-300">
-                                <div class="text-sm">
-                                    <strong class="text-primary block">WIP & AR Aging</strong>
-                                    <span class="text-secondary text-xs">Is AR collectability accurate? Are they billing for WIP effectively?</span>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                                <input type="checkbox" class="mt-1 accent-accent w-5 h-5 rounded border-gray-300">
-                                <div class="text-sm">
-                                    <strong class="text-primary block">Seller Add-Back Validation</strong>
-                                    <span class="text-secondary text-xs">Verify all personal expenses (Vehicles, country club, "marketing").</span>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                                <input type="checkbox" class="mt-1 accent-accent w-5 h-5 rounded border-gray-300">
-                                <div class="text-sm">
-                                    <strong class="text-primary block">Revenue by Client Cohort</strong>
-                                    <span class="text-secondary text-xs">Check for "aging out" client base. Are top 10 clients > 15% of revenue?</span>
-                                </div>
-                            </label>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Cash Flow Waterfall</h3>
+                        <div class="chart-container">
+                            <canvas id="financialChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-surface p-5 rounded-lg shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-primary mb-4 flex items-center gap-2">
-                            <div class="w-1 h-6 bg-blue-600 rounded-sm"></div> Operational & Tech
-                        </h3>
-                        <div class="space-y-3">
-                            <label class="flex items-start gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
-                                <input type="checkbox" class="mt-1 accent-accent w-5 h-5 rounded border-gray-300">
-                                <div class="text-sm">
-                                    <strong class="text-primary block">Tech Stack Audit</strong>
-                                    <span class="text-secondary text-xs">Desktop (Tech Debt) vs Cloud (Value).</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="bg-red-50 p-5 rounded-lg border border-red-100">
-                        <h3 class="font-bold text-red-800 mb-3 text-sm flex items-center gap-2">🚩 Deal Breakers / Red Flags</h3>
-                        <div class="table-container">
-                             <table class="w-full text-sm text-left">
-                                 <tbody class="divide-y divide-red-200 text-red-900">
-                                     <tr class="py-2"><td class="py-2 font-medium">Owner billing > $400k/yr personally</td><td class="py-2 text-xs">High transfer risk. You are buying a job.</td></tr>
-                                     <tr class="py-2"><td class="py-2 font-medium">No Non-Compete / Non-Solicit</td><td class="py-2 text-xs">Critical. Partners can leave and take clients.</td></tr>
-                                     <tr class="py-2"><td class="py-2 font-medium">Paper-based files</td><td class="py-2 text-xs">Massive digitization cost ($50k+) post-close.</td></tr>
-                                 </tbody>
-                             </table>
+                    <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">SBA Bankability Checklist</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-3 bg-slate-50 rounded text-center">
+                                <div class="text-xl mb-1">📉</div>
+                                <div class="text-xs font-bold">Churn < 10%</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded text-center">
+                                <div class="text-xl mb-1">🔄</div>
+                                <div class="text-xs font-bold">Recurring > 60%</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded text-center">
+                                <div class="text-xl mb-1">👥</div>
+                                <div class="text-xs font-bold">No Client > 10%</div>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded text-center">
+                                <div class="text-xl mb-1">💵</div>
+                                <div class="text-xs font-bold">SDE > $500k</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- SECTION 5: OPERATIONS -->
+        <section id="operations" class="section-content hidden fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Operations</h2>
+                <p class="text-base md:text-lg text-slate-600">The Modernization Playbook.</p>
+            </header>
+
+             <!-- Cross-Sell Matrix -->
+             <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Cross-Sell Opportunity Matrix</h3>
+                <p class="text-sm text-slate-500 mb-4">Revenue Lift potential when adding services.</p>
+                <div class="overflow-x-auto">
+                    <div class="min-w-[600px] grid grid-cols-4 gap-2 text-center text-xs md:text-sm">
+                        <div class="col-span-1 bg-slate-100 p-2 font-bold flex items-center justify-center rounded">From \ To</div>
+                        <div class="bg-slate-100 p-2 font-bold rounded">Add Payroll</div>
+                        <div class="bg-slate-100 p-2 font-bold rounded">Add Tax</div>
+                        <div class="bg-slate-100 p-2 font-bold rounded">Add Advisory</div>
+
+                        <!-- Row 1 -->
+                        <div class="bg-slate-100 p-2 font-bold flex items-center justify-center rounded">CPA Platform</div>
+                        <div class="bg-emerald-100 p-3 border border-emerald-200 rounded">
+                            <div class="font-bold text-emerald-800">High Lift</div>
+                            <div class="text-[10px]">Easy Cross-sell</div>
+                        </div>
+                        <div class="bg-gray-100 p-3 border border-gray-200 rounded">
+                            <div class="font-bold text-gray-500">N/A</div>
+                            <div class="text-[10px]">Already Core</div>
+                        </div>
+                        <div class="bg-yellow-100 p-3 border border-yellow-200 rounded">
+                            <div class="font-bold text-yellow-800">Max Lift</div>
+                            <div class="text-[10px]">Requires Talent</div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="bg-slate-100 p-2 font-bold flex items-center justify-center rounded">Bookkeeping</div>
+                        <div class="bg-emerald-100 p-3 border border-emerald-200 rounded">
+                            <div class="font-bold text-emerald-800">Med Lift</div>
+                            <div class="text-[10px]">Good fit</div>
+                        </div>
+                        <div class="bg-orange-100 p-3 border border-orange-200 rounded">
+                            <div class="font-bold text-orange-800">Low Lift</div>
+                            <div class="text-[10px]">Partnership best</div>
+                        </div>
+                        <div class="bg-purple-100 p-3 border border-purple-200 rounded">
+                            <div class="font-bold text-purple-800">Mega Lift</div>
+                            <div class="text-[10px]">Core Strategy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscription Pricing Cards -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-slate-900">Subscription Model</h3>
+                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-1 rounded-full">+25% Rev</span>
+                </div>
+
+                <div class="flex flex-col md:grid md:grid-cols-3 gap-4">
+                    <!-- Tier 1 -->
+                    <div class="border rounded-xl p-5 bg-white shadow-sm relative overflow-hidden">
+                        <h4 class="font-bold text-slate-700 text-lg">Essential</h4>
+                        <div class="text-2xl font-bold text-slate-900 mt-1">$750<span class="text-sm text-slate-500 font-normal">/mo</span></div>
+                        <p class="text-xs text-slate-500 mt-1 mb-3">Compliance</p>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li>✓ Monthly Books</li>
+                            <li>✓ Sales Tax</li>
+                            <li>✓ Annual Return</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="border-2 border-indigo-500 rounded-xl p-5 bg-white shadow-md relative overflow-hidden transform scale-105 z-10">
+                        <div class="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl">POPULAR</div>
+                        <h4 class="font-bold text-indigo-900 text-lg">Growth</h4>
+                        <div class="text-2xl font-bold text-indigo-900 mt-1">$1,500<span class="text-sm text-indigo-500 font-normal">/mo</span></div>
+                        <p class="text-xs text-indigo-500 mt-1 mb-3">Insights</p>
+                        <ul class="text-sm space-y-2 text-slate-700">
+                            <li><strong>✓ All Essential</strong></li>
+                            <li>✓ Strategy Calls</li>
+                            <li>✓ Forecasting</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tier 3 -->
+                    <div class="border rounded-xl p-5 bg-slate-50 relative overflow-hidden">
+                        <h4 class="font-bold text-slate-900 text-lg">CFO</h4>
+                        <div class="text-2xl font-bold text-slate-900 mt-1">$3.5k<span class="text-sm text-slate-500 font-normal">/mo+</span></div>
+                        <p class="text-xs text-slate-500 mt-1 mb-3">Partner</p>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li><strong>✓ All Growth</strong></li>
+                            <li>✓ Board Mtgs</li>
+                            <li>✓ Budgeting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tech Stack -->
+                <div class="bg-white p-5 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Tech Stack Target</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="text-slate-600">G/L</span>
+                            <span class="font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs">QBO</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="text-slate-600">Workflow</span>
+                            <span class="font-mono bg-purple-100 text-purple-800 px-2 py-0.5 rounded text-xs">Karbon</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="text-slate-600">AP/AR</span>
+                            <span class="font-mono bg-orange-100 text-orange-800 px-2 py-0.5 rounded text-xs">Bill.com</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-slate-100 pb-2">
+                            <span class="text-slate-600">Payroll</span>
+                            <span class="font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">Gusto Pro</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Bottlenecks -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Operational Bottlenecks</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-900">Owner Dependency</h4>
+                            <div class="w-full bg-slate-200 rounded-full h-2.5 mt-1">
+                                <div class="bg-red-600 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Risk: High. Mitigation: Promote Manager by Day 90.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-900">Legacy Tech Debt</h4>
+                            <div class="w-full bg-slate-200 rounded-full h-2.5 mt-1">
+                                <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 60%"></div>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Risk: Medium. Mitigation: Cloud migration plan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: RISKS -->
+        <section id="risks" class="section-content hidden fade-in">
+            <header class="mb-6 md:mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Risk Radar</h2>
+                <p class="text-base md:text-lg text-slate-600">Protecting the Investment.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8">
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-sm">
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Red Flag Checklist</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start p-3 bg-red-50 rounded border border-red-100">
+                            <span class="text-red-600 font-bold mr-3">🚩</span>
+                            <div>
+                                <div class="font-bold text-red-900 text-sm">Declining Rev</div>
+                                <div class="text-xs text-red-700">Recurring lines down?</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-3 bg-red-50 rounded border border-red-100">
+                            <span class="text-red-600 font-bold mr-3">🚩</span>
+                            <div>
+                                <div class="font-bold text-red-900 text-sm">Concentration</div>
+                                <div class="text-xs text-red-700">Any client > 15%</div>
+                            </div>
+                        </div>
+                         <div class="flex items-start p-3 bg-red-50 rounded border border-red-100">
+                            <span class="text-red-600 font-bold mr-3">🚩</span>
+                            <div>
+                                <div class="font-bold text-red-900 text-sm">Poor WIP Records</div>
+                                <div class="text-xs text-red-700">Inability to track unbilled time.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Top 5 Diligence Questions (Day 1)</h3>
+                <ol class="list-decimal list-inside space-y-2 text-slate-700 text-sm md:text-base">
+                    <li>What is the age distribution of your client base? (Aging clients = dying revenue)</li>
+                    <li>How many hours per week is the owner working? (True SDE test)</li>
+                    <li>What software do you use for tax/books/payroll? (Integration cost proxy)</li>
+                    <li>Have you raised prices in the last 2 years? (Pricing power test)</li>
+                    <li>Is there a non-compete for key staff? (Retention risk)</li>
+                </ol>
+            </div>
+        </section>
+
+         <!-- SECTION 7: RECOMMENDATION -->
+         <section id="recommendation" class="section-content hidden fade-in">
+            <header class="mb-8 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Recommendation</h2>
+                <p class="text-base md:text-lg text-slate-600">The Path Forward.</p>
+            </header>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-slate-900 text-white rounded-xl shadow-lg p-6 md:p-8 mb-6 text-center">
+                    <div class="uppercase tracking-widest text-purple-400 font-bold text-[10px] md:text-xs mb-2">Primary Strategy</div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4">Acquire Bookkeeping/CAS</h3>
+                    <p class="text-slate-300 text-sm md:text-lg leading-relaxed mb-4">
+                        Pivot away from CPA firms. <strong>CO Law requires CPA ownership.</strong>
+                    </p>
+                    <div class="bg-slate-800 p-4 rounded text-sm text-slate-300">
+                        Target <strong>NAICS 541219</strong>. No ownership restrictions. High margin advisory potential.
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-white p-5 rounded-lg shadow border border-slate-200">
+                        <h4 class="font-bold text-slate-900 mb-2">Next 30 Days</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li>✅ Filter brokers for "Bookkeeping"</li>
+                            <li>✅ Target SDE: $500k - $2.0M</li>
+                            <li>✅ SBA Pre-approval</li>
+                            <li>✅ Outreach to CO Society of CPAs.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg shadow border border-slate-200">
+                        <h4 class="font-bold text-slate-900 mb-2">Deal Breakers</h4>
+                        <ul class="text-sm space-y-2 text-slate-600">
+                            <li>❌ >50% one-time revenue</li>
+                            <li>❌ Owner is sole advisor</li>
+                            <li>❌ Desktop-only software</li>
+                            <li>❌ Owner refuses 6-month transition.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+         </section>
 
     </main>
+</div>
 
-    <script>
-        // --- Icons ---
-        lucide.createIcons();
+<!-- JavaScript Logic -->
+<script>
+    // --- Mobile Menu Logic ---
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const isClosed = menu.classList.contains('menu-closed');
+        
+        if (isClosed) {
+            menu.classList.remove('hidden');
+            setTimeout(() => {
+                menu.classList.remove('menu-closed');
+                menu.classList.add('menu-open');
+            }, 10);
+        } else {
+            menu.classList.remove('menu-open');
+            menu.classList.add('menu-closed');
+            setTimeout(() => {
+                menu.classList.add('hidden');
+            }, 300);
+        }
+    }
 
-        // --- Navigation Logic ---
-        function handleNavClick(sectionId) {
-            showSection(sectionId);
-            closeMobileMenu();
+    document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+    // Populate Mobile Links
+    const navItems = document.querySelectorAll('#sidebar .nav-item');
+    const mobileContainer = document.getElementById('mobile-nav-links');
+    navItems.forEach(item => {
+        const clone = document.createElement('a');
+        clone.href = '#';
+        const text = item.innerText.trim();
+        clone.innerText = text;
+        clone.className = 'block px-5 py-4 text-slate-700 font-medium border-b border-slate-100 hover:bg-slate-50 text-base active:bg-slate-100';
+        
+        if(item.classList.contains('active-nav')) {
+            clone.classList.add('text-emerald-600', 'font-bold', 'bg-emerald-50');
         }
 
-        function showSection(sectionId) {
-            document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
-            document.getElementById(sectionId).classList.remove('hidden');
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if(btn.dataset.section === sectionId) {
-                    btn.classList.remove('nav-btn-inactive');
-                    btn.classList.add('nav-btn-active');
-                } else {
-                    btn.classList.remove('nav-btn-active');
-                    btn.classList.add('nav-btn-inactive');
-                }
-            });
-            
-            if(sectionId === 'market' && !window.marketChartsInitialized) { renderMarketCharts(); window.marketChartsInitialized = true; }
-            if(sectionId === 'verticals' && !window.verticalChartsInitialized) { renderVerticalCharts(); window.verticalChartsInitialized = true; }
+        clone.onclick = (e) => {
+            e.preventDefault();
+            showSection(item.dataset.target);
+            toggleMobileMenu();
+        };
+        mobileContainer.appendChild(clone);
+    });
+
+
+    // --- Core App Logic ---
+    const state = {
+        currentSection: 'exec-summary',
+        sde: 1250000,
+        multiple: 3.5,
+        interestRate: 0.115,
+        loanTerm: 10,
+        feePercent: 0.03,
+        verticalData: {
+            '541211': { moat: 4.5, frag: 'High', barrier: 'High', insights: 'RESTRICTED: Requires CPA license.' },
+            '541214': { moat: 3.5, frag: 'Med', barrier: 'Med', insights: 'High competition.' },
+            '541219': { moat: 3.0, frag: 'High', barrier: 'Low', insights: 'TARGET: High growth.' }
         }
+    };
 
-        function switchVerticalTab(tabName) {
-            document.querySelectorAll('.vertical-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            
-            document.querySelectorAll('.vertical-tab').forEach(el => { el.classList.remove('tab-active'); el.classList.add('tab-inactive'); });
-            document.getElementById(`tab-${tabName}`).classList.add('tab-active');
-            document.getElementById(`tab-${tabName}`).classList.remove('tab-inactive');
+    function showSection(sectionId) {
+        document.querySelector('main').scrollTop = 0;
+        document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(sectionId).classList.remove('hidden');
+        
+        document.querySelectorAll('#sidebar .nav-item').forEach(el => {
+            el.classList.remove('active-nav');
+            if(el.dataset.target === sectionId) el.classList.add('active-nav');
+        });
+
+        if(sectionId === 'market-analysis') setTimeout(renderMarketChart, 100);
+        if(sectionId === 'financials') setTimeout(renderFinancialChart, 100);
+        if(sectionId === 'risks') setTimeout(renderRiskChart, 100);
+    }
+
+    function switchTab(group, tabId) {
+        document.querySelectorAll(`button[data-tab^="${group}-"]`).forEach(btn => btn.classList.remove('tab-active'));
+        document.querySelector(`button[data-tab="${tabId}"]`).classList.add('tab-active');
+        document.querySelectorAll(`.${group}-content`).forEach(content => content.classList.add('hidden'));
+        document.getElementById(tabId).classList.remove('hidden');
+    }
+
+    function updateVerticalDetail(code) {
+        const data = state.verticalData[code];
+        if(!data) return;
+        document.getElementById('v-moat').innerText = data.moat + '/5';
+        document.getElementById('v-frag').innerText = data.frag;
+        document.getElementById('v-barrier').innerText = data.barrier;
+        const titles = {
+            '541211': 'CPA Firms', '541214': 'Payroll', '541219': 'Bookkeeping/CAS'
+        };
+        document.getElementById('v-title').innerText = titles[code];
+        
+        if(window.innerWidth < 768) {
+            document.getElementById('vertical-detail').scrollIntoView({behavior: 'smooth', block: 'nearest'});
         }
+    }
 
-        // --- Mobile Menu ---
-        const sidebar = document.getElementById('sidebar');
-        const backdrop = document.getElementById('mobile-menu-backdrop');
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => { sidebar.classList.remove('-translate-x-full'); backdrop.classList.remove('hidden'); });
-        function closeMobileMenu() { sidebar.classList.add('-translate-x-full'); backdrop.classList.add('hidden'); }
+    function calculateDeal() {
+        state.sde = parseFloat(document.getElementById('input-sde').value);
+        state.multiple = parseFloat(document.getElementById('input-multiple').value);
+        
+        document.getElementById('display-sde').innerText = formatCurrency(state.sde);
 
-        // --- Calculator Logic (Updated: 15/5/80 with formatCurrency) ---
-        function formatCurrency(value) {
-            if (value >= 1000000) {
-                return '$' + (value / 1000000).toFixed(2) + 'M';
+        const purchasePrice = state.sde * state.multiple;
+        const fees = purchasePrice * state.feePercent;
+        const totalProjectCost = purchasePrice + fees;
+
+        const equityInjection = totalProjectCost * 0.10;
+        const sellerNote = purchasePrice * 0.10;
+        const sbaLoanAmount = totalProjectCost - equityInjection - sellerNote;
+        
+        const r = state.interestRate / 12;
+        const n = state.loanTerm * 12;
+        const monthlyPayment = sbaLoanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        const annualDebtService = monthlyPayment * 12;
+        
+        const cashFlow = state.sde - annualDebtService; 
+        const dscr = state.sde / annualDebtService;
+
+        document.getElementById('out-price').innerText = formatCurrency(purchasePrice);
+        document.getElementById('out-fees').innerText = formatCurrency(fees);
+        document.getElementById('out-total-cost').innerText = formatCurrency(totalProjectCost);
+        document.getElementById('out-equity').innerText = formatCurrency(equityInjection);
+        document.getElementById('out-seller').innerText = formatCurrency(sellerNote);
+        document.getElementById('out-loan').innerText = formatCurrency(sbaLoanAmount);
+        document.getElementById('out-cashflow').innerText = formatCurrency(cashFlow);
+        document.getElementById('out-dscr').innerText = dscr.toFixed(2) + "x";
+
+        updateFinancialChart(annualDebtService, cashFlow);
+    }
+
+    function formatCurrency(num) {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+    }
+
+    let marketChart, financialChart, riskChart;
+
+    function renderMarketChart() {
+        if (marketChart) return;
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        marketChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['CPA', 'Book/CAS', 'Pay', 'Tax'],
+                datasets: [
+                    { label: 'Recurring', data: [3, 5, 5, 1], backgroundColor: '#10b981' },
+                    { label: 'Margin', data: [3, 4, 2, 4], backgroundColor: '#6366f1' }
+                ]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true, max: 5, ticks: { display: false } } },
+                plugins: { legend: { position: 'bottom' } }
             }
-            return '$' + Math.round(value / 1000).toLocaleString() + 'k';
+        });
+    }
+
+    function renderFinancialChart() {
+        if (financialChart) return;
+        const ctx = document.getElementById('financialChart').getContext('2d');
+        financialChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bank (Debt)', 'You (Cash)'],
+                datasets: [{ data: [50, 50], backgroundColor: ['#ef4444', '#10b981'], borderWidth: 0 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom' } } }
+        });
+        calculateDeal();
+    }
+
+    function updateFinancialChart(debt, cash) {
+        if (financialChart) {
+            financialChart.data.datasets[0].data = [debt, cash];
+            financialChart.update();
         }
+    }
 
-        function updateCalculator() {
-            const sde = parseInt(document.getElementById('sdeInput').value);
-            const multiple = parseFloat(document.getElementById('multipleInput').value);
-            const rate = 10.5; // SBA Rate assumption
+    function renderRiskChart() {
+        if (riskChart) return;
+        const ctx = document.getElementById('riskChart').getContext('2d');
+        riskChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Comp', 'Season', 'Tech', 'Talent', 'Reg'],
+                datasets: [
+                    { label: 'CAS', data: [4, 1, 3, 3, 1], borderColor: '#9333ea', backgroundColor: 'rgba(147, 51, 234, 0.2)' },
+                    { label: 'CPA', data: [2, 3, 4, 5, 5], borderColor: '#4f46e5', backgroundColor: 'rgba(79, 70, 229, 0.2)' }
+                ]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { r: { beginAtZero: true, max: 5, pointLabels: { font: { size: 10 } } } }
+            }
+        });
+    }
 
-            document.getElementById('sdeDisplay').innerText = formatCurrency(sde);
-            document.getElementById('multipleDisplay').innerText = multiple.toFixed(1) + 'x';
-
-            const purchasePrice = sde * multiple;
-            
-            // New Structure: 15% Equity, 5% Seller Note, 80% SBA
-            const equity = purchasePrice * 0.15;
-            const sellerNote = purchasePrice * 0.05;
-            const sbaLoanAmount = purchasePrice * 0.80;
-            
-            // SBA Debt Service (10 year term)
-            const r = (rate / 100) / 12;
-            const n = 120;
-            const monthlyPayment = sbaLoanAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-            const annualDebtService = monthlyPayment * 12;
-            const cashFlow = sde - annualDebtService; 
-
-            document.getElementById('purchasePrice').innerText = formatCurrency(purchasePrice);
-            document.getElementById('equityAmount').innerText = formatCurrency(equity);
-            document.getElementById('sellerNoteAmount').innerText = formatCurrency(sellerNote);
-            document.getElementById('loanAmount').innerText = formatCurrency(sbaLoanAmount);
-            document.getElementById('debtService').innerText = formatCurrency(annualDebtService);
-            document.getElementById('cashFlow').innerText = formatCurrency(cashFlow);
-        }
-
-        document.getElementById('sdeInput').addEventListener('input', updateCalculator);
-        document.getElementById('multipleInput').addEventListener('input', updateCalculator);
-
-        // --- Charts ---
-        window.marketChartsInitialized = false;
-        window.verticalChartsInitialized = false;
-
-        function renderMarketCharts() {
-            const chartConfig = (ctx, type, data, options) => {
-                return new Chart(ctx, { type: type, data: data, options: { responsive: true, maintainAspectRatio: false, ...options } });
-            };
-            const ctx1 = document.getElementById('fragmentationChart').getContext('2d');
-            chartConfig(ctx1, 'doughnut', { 
-                labels: ['Indie (<$2M)', 'Regional ($2M-$10M)', 'National (>$10M)'], 
-                datasets: [{ 
-                    data: [75, 15, 10], 
-                    backgroundColor: ['#D97706', '#94A3B8', '#E2E8F0'], // Orange, Slate-400, Slate-200
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }] 
-            }, { 
-                cutout: '65%',
-                plugins: { 
-                    legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true, font: { size: 10 } } },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed + '%';
-                            }
-                        }
-                    }
-                } 
-            });
-            const ctx2 = document.getElementById('pricingTrendChart').getContext('2d');
-            chartConfig(ctx2, 'line', { labels: ['21', '22', '23', '24', '25'], datasets: [{ label: 'Hrly Rate', data: [180, 195, 215, 240, 265], borderColor: '#D97706', backgroundColor: 'rgba(217, 119, 6, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] }, { scales: { y: { ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } } });
-        }
-
-        function renderVerticalCharts() {
-            const ctx3 = document.getElementById('cpaMixChart').getContext('2d');
-            new Chart(ctx3, { type: 'bar', data: { labels: ['Target', 'Old School'], datasets: [{ label: 'Recurring', data: [40, 10], backgroundColor: '#D97706' }, { label: 'Compliance', data: [45, 30], backgroundColor: '#78909C' }, { label: '1040s', data: [15, 60], backgroundColor: '#A1887F' }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { stacked: true, ticks: { font: { size: 10 } } }, y: { stacked: true, ticks: { font: { size: 11 } } } }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } } });
-        }
-
-        // Init
-        updateCalculator();
-    </script>
+    window.addEventListener('load', () => {
+        updateVerticalDetail('541219');
+        calculateDeal();
+        showSection('exec-summary');
+    });
+</script>
 </body>
 </html>
